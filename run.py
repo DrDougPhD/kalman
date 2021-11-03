@@ -1,5 +1,9 @@
+import kalman.dataset
+
+
 def main():
-    print('Hello world!')
+    dataset = kalman.dataset.generate(columns=2, observations=100)
+    print(dataset)
 
 
 if __name__ == '__main__':
