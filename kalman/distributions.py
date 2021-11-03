@@ -38,12 +38,3 @@ class Normal(RandomVariable):
 class StandardNormal(Normal):
     def __init__(self, **kwargs):
         super().__init__(mean=0, standard_deviation=1, **kwargs)
-
-
-if __name__ == '__main__':
-    std_normal = StandardNormal(dimension=2)
-    for i, value in enumerate(std_normal):
-        print(value)
-
-        if i == 50:
-            break

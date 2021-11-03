@@ -66,12 +66,8 @@ class DatasetGenerator(object):
         new_state = numpy.dot(self.previous_state_transformation_matrix, self.previous_state) \
                     + next(self.process_noise) \
                     + numpy.dot(control_input_transformation_matrix, control_input_generator())
-        # print('-' * 120)
-        # print(self.state_to_measurement_transformation_matrix.shape)
-        # print(numpy.dot(self.state_to_measurement_transformation_matrix, new_state))
-        # print('#' * 120)
         new_measurement = numpy.dot(self.state_to_measurement_transformation_matrix, new_state) \
-                          + next(self.measurement_noise)
+                        + next(self.measurement_noise)
 
         self.previous_state = new_state
 
