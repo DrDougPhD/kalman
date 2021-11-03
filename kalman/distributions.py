@@ -5,6 +5,8 @@ from typing import Tuple
 import numpy
 import numpy.typing
 
+from . import types
+
 
 class RandomVariable(object):
     random_number_generator: Callable
@@ -15,9 +17,11 @@ class RandomVariable(object):
         self.lower_bound_inclusive, self.upper_bound_inclusive = inclusivity or (False, False)
         self.dimension = dimension
 
-    def __iter__(self) -> numpy.typing.NDArray[numpy.float64]:
-        while True:
-            yield self.random_number_generator(**self.distribution_parameters)
+    def __iter__(self):
+        return self
+
+    def __next__(self) -> types.Matrix:
+        return self.random_number_generator(**self.distribution_parameters)
 
 
 class Normal(RandomVariable):
@@ -27,7 +31,7 @@ class Normal(RandomVariable):
         self.distribution_parameters = {
             'loc': mean,
             'scale': standard_deviation,
-            'size': self.dimension
+            'size': (self.dimension, 1)
         }
 
 
