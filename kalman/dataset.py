@@ -19,10 +19,10 @@ def generator(process_noise: float,
               initial_state: types.Matrix,
               state_to_measurement_transformation_matrix: types.Matrix,
               previous_state_transformation_matrix: types.Matrix,
-              control_input: Tuple[types.Matrix, Callable[[], types.Matrix]] = None,
+              control_input: Tuple[types.Matrix, Callable[[], types.Matrix]] = None
               ) -> types.Matrix:
     state_dimension = initial_state.shape[0]
-    measurement_dimension =  state_to_measurement_transformation_matrix.shape[0]
+    measurement_dimension = state_to_measurement_transformation_matrix.shape[0]
 
     yield DatasetGenerator(
         initial_state=initial_state,
@@ -44,7 +44,7 @@ class DatasetGenerator(object):
                  measurement_noise: distributions.RandomVariable,
                  previous_state_transformation_matrix: types.Matrix,
                  state_to_measurement_transformation_matrix: types.Matrix,
-                 control_input: Tuple[types.Matrix, Callable[[], types.Matrix]] = None
+                 control_input: Tuple[types.Matrix, Callable[[], types.Matrix]] = None,
                  ):
         self.previous_state = initial_state
         self.process_noise = process_noise
@@ -63,10 +63,13 @@ class DatasetGenerator(object):
 
     def __next__(self) -> types.Matrix:
         control_input_transformation_matrix, control_input_generator = self.control_input
-
         new_state = numpy.dot(self.previous_state_transformation_matrix, self.previous_state) \
                     + next(self.process_noise) \
                     + numpy.dot(control_input_transformation_matrix, control_input_generator())
+        # print('-' * 120)
+        # print(self.state_to_measurement_transformation_matrix.shape)
+        # print(numpy.dot(self.state_to_measurement_transformation_matrix, new_state))
+        # print('#' * 120)
         new_measurement = numpy.dot(self.state_to_measurement_transformation_matrix, new_state) \
                           + next(self.measurement_noise)
 

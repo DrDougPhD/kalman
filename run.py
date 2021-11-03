@@ -11,12 +11,12 @@ def main():
     with kalman.dataset.generator(
             process_noise=1,
             measurement_noise=1,
-            initial_state=numpy.array([[0, 1]]).T,
-            state_to_measurement_transformation_matrix=numpy.array([
+            initial_state=numpy.array([[0, 0.1]]).T,
+            previous_state_transformation_matrix=numpy.array([
                 [1, 0.1],
                 [0, 1],
             ]),
-            previous_state_transformation_matrix=numpy.array([[1, 2]]),
+            state_to_measurement_transformation_matrix=numpy.diag((1, 2)),
     ) as dataset:
         for i, observation in enumerate(dataset):
             print(observation)
