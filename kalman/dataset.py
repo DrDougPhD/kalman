@@ -1,6 +1,5 @@
 import itertools
 from contextlib import contextmanager
-from typing import Callable
 from typing import Iterable
 from typing import Optional
 from typing import Tuple
@@ -22,7 +21,7 @@ def generator(process_noise: float,
               initial_state: types.Matrix,
               measurement_transformation_matrix: Optional[types.Matrix] = None,
               state_estimate_transformation_matrix: Optional[types.Matrix] = None,
-              control_input: Optional[Tuple[types.Matrix, Callable[[], types.Matrix]]] = None
+              control_input: Optional[Tuple[types.Matrix, Iterable[types.Matrix]]] = None
               ) -> types.Matrix:
     state_dimension = initial_state.shape[0]
     measurement_dimension = measurement_transformation_matrix.shape[0]
