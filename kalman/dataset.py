@@ -41,6 +41,10 @@ def generator(process_noise: float,
 
 
 class DatasetGenerator(object):
+    true_states: types.Matrix
+    time_step_count: int = 0
+
+
     def __init__(self, initial_state: types.Matrix,
                  process_noise: distributions.RandomVariable,
                  measurement_noise: distributions.RandomVariable,
@@ -67,6 +71,8 @@ class DatasetGenerator(object):
             itertools.repeat(numpy.zeros((1, 1))),  # generates singleton matrix of 0s every time
         )
 
+        self.true_states = numpy.array([[], []])
+
     def __iter__(self):
         return self
 
@@ -79,4 +85,12 @@ class DatasetGenerator(object):
 
         self.previous_state = new_state
 
+        self.true_states = numpy.hstack((self.true_states, new_state))
+
+        self.time_step_count += 1
+
         return new_measurement
+
+    @property
+    def time_steps(self) -> Iterable[int]:
+        return range(self.time_step_count)
